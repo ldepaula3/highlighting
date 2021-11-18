@@ -1,0 +1,89 @@
+<html>
+    <!-- Text Highlighter Data-driven content -->
+<head>
+     <!-- jQuery  -->
+     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script type="text/javascript" src="messagingUtil.js"></script>
+
+<script>
+
+
+    // Set up event to receive messages
+    if (window.addEventListener) {
+           // For standards-compliant web browsers
+           window.addEventListener("message", onMessage, false);
+       } else {
+           window.attachEvent("onmessage", onMessage);
+       };
+    
+    function separate_params(dt){
+      text = dt[0][0];
+      
+      split = text.split(" ");
+      final = "";
+      
+      ptrn = dt;
+      
+      var final = "";
+      var ff = [];
+
+      for (var i in split) {
+          ff[i] = "black";
+          for (var j in ptrn) {
+              if (ptrn[j][1] === split[i]) {
+                  ff[i] = "red";
+              }
+          }
+      }
+
+      for (k in ff) {
+          // console.log("index: " + k + " val: " + ff[k]);
+          if(ff[k] == "red") {
+              final += "<span style='color: green'> " + split[k] + "</span>";
+          } else {
+              final += "<span> " + split[k] + "</span>";
+          }
+
+        // console.log(final);
+      }
+
+      $("#legend").html(final);
+      
+    //   console.log("match_text: " + text);
+    //    console.log("highlights: " + matches);
+    }
+    
+    
+
+    // The following code controls what happens when data is passed to the DDC 
+    // Retrieve data and begin processing
+       function onMessage(event) {
+                // Process for each row of data 
+                if(event.data.data) {
+                    // console.log(event.data.data);
+                    separate_params(event.data.data);
+                };
+            }
+ 
+
+
+    
+</script>
+
+
+</head>
+
+<body>
+<div id="highlightArea" class="list-group">
+    <div id="legend"></div>
+</div>
+
+
+
+<!-- <div id="helpfulHint" class="footer alert-warning">Note: While assigning data, please ensure they are in the following order: [The text column], Category, and Match Text</div> -->
+</body>
+</html>
